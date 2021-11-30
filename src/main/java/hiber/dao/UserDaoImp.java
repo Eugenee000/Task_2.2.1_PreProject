@@ -35,11 +35,10 @@ public class UserDaoImp implements UserDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<User> listOfUserByCar(String model, int series) {
-        String HQL = "FROM User user" +
+        TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery("FROM User user" +
                 " LEFT OUTER JOIN FETCH user.car cars" +
                 " WHERE cars.model = :paramModel" +
-                " AND cars.series = :paramSeries";
-        TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery(HQL);
+                " AND cars.series = :paramSeries");
         query.setParameter("paramModel", model);
         query.setParameter("paramSeries", series);
         return query.getResultList();
